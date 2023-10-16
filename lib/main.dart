@@ -14,6 +14,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int counter = 0;
   List<int> numbers = [];
+  bool showTitle = true;
 
   void onClicked() {
     setState(() {
@@ -22,8 +23,15 @@ class _AppState extends State<App> {
     });
   }
 
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('Test MyApp');
     return MaterialApp(
       theme: ThemeData(
         textTheme: TextTheme(
@@ -38,7 +46,7 @@ class _AppState extends State<App> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const MyLargeTitle(),
+              showTitle == true ? const MyLargeTitle() : const Text(''),
               const Text(
                 'Click Count',
                 style: TextStyle(fontSize: 30),
@@ -52,7 +60,12 @@ class _AppState extends State<App> {
                 onPressed: onClicked,
                 icon: const Icon(Icons.add_box_rounded),
                 iconSize: 40,
-              )
+              ),
+              IconButton(
+                onPressed: toggleTitle,
+                icon: const Icon(Icons.remove_red_eye),
+                iconSize: 40,
+              ),
             ],
           ),
         ),
@@ -61,13 +74,35 @@ class _AppState extends State<App> {
   }
 }
 
-class MyLargeTitle extends StatelessWidget {
+class MyLargeTitle extends StatefulWidget {
   const MyLargeTitle({
     super.key,
   });
 
   @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  int count = 0;
+
+  // initState method's to be executed before build(does that mean before it's monuted?)
+  @override
+  void initState() {
+    super.initState();
+    print('Test initState');
+  }
+
+  // dispose method's to be executed before unmounted
+  @override
+  void dispose() {
+    super.dispose();
+    print('Test dispose');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('Test build');
     return Text(
       'Title',
       style: TextStyle(
